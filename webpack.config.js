@@ -6,15 +6,12 @@ const DIST_DIR = __dirname + '/dist';
 
 module.exports = {
   entry: [
-    SRC_DIR + '/index.js',
+    SRC_DIR + '/index.jsx',
   ],
   output: {
     path: DIST_DIR,
     publicPath: '/',
     filename: 'bundle.js'
-  },
-  devServer: {
-    overlay: true
   },
   module: {
     rules: [
@@ -24,6 +21,13 @@ module.exports = {
         use: {
           loader: 'html-loader',
           options: {minimize: true}
+        }
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
         }
       }
     ]
@@ -41,6 +45,7 @@ module.exports = {
   devServer: {
     contentBase: DIST_DIR,
     hot: true,
-    port: 9000
+    port: 9000,
+    overlay: true
   }
 };
