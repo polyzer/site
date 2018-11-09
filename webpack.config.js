@@ -1,17 +1,17 @@
 const webpack = require('webpack');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const SRC_DIR = __dirname + '/src';
-const DIST_DIR = __dirname + '/dist';
+const DIST_DIR = __dirname + '/build';
 
 module.exports = {
   entry: [
-    SRC_DIR + '/index.jsx',
+    './src/index.jsx',
   ],
   output: {
-    path: DIST_DIR,
-    publicPath: '/',
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, '/build'),
+    filename: 'main.js'
   },
   module: {
     rules: [
@@ -31,9 +31,6 @@ module.exports = {
         }
       }
     ]
-  },
-  resolve: {
-    extensions: ['*', '.js', '.jsx']
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
