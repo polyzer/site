@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const SRC_DIR = __dirname + '/src';
 const DIST_DIR = __dirname + '/build';
 
@@ -10,14 +10,15 @@ module.exports = {
     './src/index.jsx',
   ],
   output: {
-    path: path.resolve(__dirname, '/build'),
-    filename: 'main.js'
+    path: path.join(__dirname, './build'),
+    filename: 'main.js',
+    publicPath: 'build/'
   },
   module: {
     rules: [
       {
-        test: /\.(html)$/,
-        exclude: /node_modules/,
+        test: /src.*\.html$/,
+        exclude: [/node_modules/, /src\.html$/],
         use: {
           loader: 'html-loader',
           options: {minimize: true}
@@ -35,9 +36,14 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      // template: SRC_DIR + '/index.html',
-      // filename: './index.html'
-    })
+      hash: true,
+      title: 'My Awesome application',
+      template: 'src/index.html',
+      filename: './index.html',
+      inject: true,
+      alwaysWriteToDisk: true
+    }),
+    new HtmlWebpackHarddiskPlugin() 
   ],
   devServer: {
     contentBase: DIST_DIR,
